@@ -28,11 +28,26 @@
             <version>${dl4j.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform -->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-nlp</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.datavec/datavec-api -->
         <dependency>
             <groupId>org.datavec</groupId>
             <artifactId>datavec-api</artifactId>
             <version>${dl4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
         </dependency>
 
 
