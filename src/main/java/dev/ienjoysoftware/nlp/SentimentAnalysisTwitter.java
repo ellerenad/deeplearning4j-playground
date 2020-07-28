@@ -15,6 +15,7 @@ public class SentimentAnalysisTwitter {
     private final static Logger log = Logger.getLogger(SentimentAnalysisTwitter.class.getName());
 
     // This file is taken from the examples downloaded by deeplearning4j library
+    // http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
     private final static String WORD2VEC_INPUT_FILE_PATH = "assets/nlp/word2vec/raw_sentences.txt";
 
     public Word2Vec trainWord2Vec() throws FileNotFoundException {
