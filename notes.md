@@ -28,6 +28,22 @@ examples:
 Word2VecRawTextExample.java
 ImdbReviewClassificationRNN.java
 
+- memory issues:
+ params for the VM
+ -Xms1024m
+ -Xmx10g
+ -XX:MaxPermSize=2g
+
+reduce dataset:
+head -1000 training.1600000.processed.noemoticon.csv >> training_reduced.csv
+tail -1000 training.1600000.processed.noemoticon.csv >> training_reduced.csv
+
+count lines in a file:
+wc -l
+
+Difficulties:
+- The java.util.Scanner would read just up to the half of the file (seen on files bigger than 40,000 lines), messing with the training. Don't know why
+
 Plan:
 
 - show a way to use the example
