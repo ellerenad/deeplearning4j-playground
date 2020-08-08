@@ -227,7 +227,7 @@ public class SentimentClassificationTwitterCNN {
                 String[] parts = line.split("\",\"");
                 String label = getLabel(parts);
                 String data = getData(parts);
-                // TODO Check splitting
+                // TODO Check dataset splitting (test and training)
                 if (counter % 2 == 0) {
                     trainingLabelList.add(label);
                     trainingDataList.add(data);
@@ -240,12 +240,12 @@ public class SentimentClassificationTwitterCNN {
             }
             counter++;
 
-            // TODO Delete? limit the amount of data to load - this is a small test
             if(counter % 1000 == 0){
                 System.out.println("Read line number "+ counter + " from dataset. Line: "+ line);
             }
 
         }
+        // TODO Put a proper logger
         System.out.println("End: Read line number "+ counter + " from dataset.Line: "+ line);
         System.out.println("trainingLabelList\ttrainingDataList\ttestLabelList\ttestDataList\n" +
                 trainingLabelList.size() + "\t"+ trainingDataList.size() + "\t"+ testLabelList.size() + "\t"+ testDataList.size());
@@ -261,7 +261,7 @@ public class SentimentClassificationTwitterCNN {
 
     String getData(String[] parts){
         String data = null;
-
+            // TODO refactor Magic constants
             if (parts.length == 6) {
                 data = parts[5];
             } else if (parts.length >= 6) {
