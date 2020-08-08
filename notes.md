@@ -56,3 +56,7 @@ extract some examples for easy experimentation with
 
 grep -m1 \"0\" training*.csv >> file
 grep -m1 \"4\" training*.csv >> file
+
+- supports early stopping with EarlyStoppingConfiguration (it is a wrapper for the training)
+
+
