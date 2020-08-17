@@ -20,6 +20,9 @@
 1. Deeplearning4j integrations with other tools
     1. Spark
     1. Hadoop
+1. How is deeplearning4j supported by other tools?
+    1. Datavec
+    1. ... https://github.com/eclipse/deeplearning4j-examples
 1. GPU Support
     1. what is required for this?
 1. Transfer learning

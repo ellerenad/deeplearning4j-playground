@@ -59,4 +59,18 @@ grep -m1 \"4\" training*.csv >> file
 
 - supports early stopping with EarlyStoppingConfiguration (it is a wrapper for the training)
 
+- Examples are hard to find
+    - Documentation and explanation could be better
+    - Some examples were moved and the google index ends up in not found code
+- good or bad? : some examples do it the hard way and other the easy way, but it is hard to find out whether this is the easy way or not      
 
+
+What are the differences between a model and a computation graph?
+
+
+images from unsplash:
+motorcycles: <span>Photo by <a href="https://unsplash.com/@harleydavidson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Harley-Davidson</a> on <a href="https://unsplash.com/s/photos/free?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+Parrot <span>Photo by <a href="https://unsplash.com/@miklevasilyev?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">MIKHAIL VASILYEV</a> on <a href="https://unsplash.com/s/photos/free?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+<span>Photo by <a href="https://unsplash.com/@dre0316?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Andre Hunter</a> on <a href="https://unsplash.com/s/photos/free?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+ <span>Photo by <a href="https://unsplash.com/@dynamo10?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Rahul Dey</a> on <a href="https://unsplash.com/s/photos/free?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+Bear <span>Photo by <a href="https://unsplash.com/@trill6124?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">anthony renovato</a> on <a href="https://unsplash.com/s/photos/bear?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
