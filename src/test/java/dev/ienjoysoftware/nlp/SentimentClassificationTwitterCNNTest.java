@@ -3,15 +3,16 @@ package dev.ienjoysoftware.nlp;
 import dev.ienjoysoftware.nlp.util.DataWrapper;
 import org.apache.commons.lang.time.StopWatch;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SentimentClassificationTwitterCNNTest {
-    private final static Logger log = Logger.getLogger(SentimentClassificationTwitterCNNTest.class.getName());
+    private final static Logger log = LoggerFactory.getLogger(SentimentClassificationTwitterCNNTest.class.getName());
 
 
     SentimentClassificationTwitterCNN sentimentClassificationTwitterCNN = new SentimentClassificationTwitterCNN();

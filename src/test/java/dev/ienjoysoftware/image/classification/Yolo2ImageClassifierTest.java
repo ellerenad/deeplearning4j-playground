@@ -3,16 +3,17 @@ package dev.ienjoysoftware.image.classification;
 import org.apache.commons.lang.time.StopWatch;
 import org.deeplearning4j.nn.layers.objdetect.DetectedObject;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class Yolo2ImageClassifierTest {
-    private final static Logger log = Logger.getLogger(Yolo2ImageClassifierTest.class.getName());
+    private final static Logger log = LoggerFactory.getLogger(Yolo2ImageClassifierTest.class.getName());
 
     @Test
     void classify() throws IOException {

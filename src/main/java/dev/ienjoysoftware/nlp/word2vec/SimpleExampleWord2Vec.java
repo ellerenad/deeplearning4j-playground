@@ -7,12 +7,13 @@ import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
-import java.util.logging.Logger;
 
 public class SimpleExampleWord2Vec {
-    private final static Logger log = Logger.getLogger(SimpleExampleWord2Vec.class.getName());
+    private final static Logger log = LoggerFactory.getLogger(SimpleExampleWord2Vec.class.getName());
 
     // This file is inspired from the examples downloaded by deeplearning4j library
     // Download the following and configure the path belo http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
