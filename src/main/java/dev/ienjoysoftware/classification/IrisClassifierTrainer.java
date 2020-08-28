@@ -36,6 +36,7 @@ public class IrisClassifierTrainer {
     private static final int LABEL_INDEX = 4;
     private static final int FEATURES_COUNT = 4;
     private static long SEED = 6;
+    public static final int TRAIN_ITERATIONS = 1000;
 
     private static final int TOTAL_LINES = 150;
     private static final double TRAIN_TO_TEST_RATIO = 0.65;
@@ -86,8 +87,9 @@ public class IrisClassifierTrainer {
         MultiLayerNetwork model = new MultiLayerNetwork(configuration);
         model.init();
         model.setListeners(new ScoreIterationListener(100)); //Print score every 100 parameter updates
-        // Do 1000 iterations to train the model
-        for(int x = 0; x < 1000; x++) {
+
+        // Do TRAIN_ITERATIONS = 1000 iterations to train the model
+        for(int x = 0; x < TRAIN_ITERATIONS; x++) {
             model.fit(trainingData);
         }
 
@@ -168,13 +170,13 @@ public class IrisClassifierTrainer {
                 .updater(new Sgd(0.1))
                 .l2(1e-4)
                 .list()
-                .layer(new DenseLayer.Builder().nIn(FEATURES_COUNT).nOut(3)
+                .layer(new DenseLayer.Builder().nIn(FEATURES_COUNT).nOut(3) // The input layer must have FEATURES_COUNT = 4 nodes
                         .build())
                 .layer(new DenseLayer.Builder().nIn(3).nOut(3)
                         .build())
                 .layer( new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                        .activation(Activation.SOFTMAX) //Override the global TANH activation with softmax for this layer
-                        .nIn(3).nOut(CLASSES_COUNT).build())
+                        .activation(Activation.SOFTMAX)
+                        .nIn(3).nOut(CLASSES_COUNT).build()) // The output layer must have CLASSES_COUNT = 3 nodes
                 .build();
     }
 
