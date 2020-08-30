@@ -16,7 +16,6 @@ public class SimpleExampleWord2Vec {
     private final static Logger log = LoggerFactory.getLogger(SimpleExampleWord2Vec.class.getName());
 
     // This file is inspired from the examples downloaded by deeplearning4j library
-    // Download the following and configure the path belo http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
     public final static String WORD2VEC_INPUT_FILE_PATH = "assets/nlp/word2vec/raw_sentences.txt";
     public final static String WORD2VEC_OUTPUT_FILE_PATH = "models/word2vec/SimpleExampleWord2Vec";
 
@@ -38,7 +37,7 @@ public class SimpleExampleWord2Vec {
      * @throws FileNotFoundException the input file was not found
      */
     public Word2Vec trainWord2Vec(String input_path, String output_path) throws FileNotFoundException {
-        // Inspired from org.deeplearning4j.examples.advanced.modelling.embeddingsfromcorpus.word2vec.Word2VecRawTextExample
+        // Inspired on org.deeplearning4j.examples.advanced.modelling.embeddingsfromcorpus.word2vec.Word2VecRawTextExample
 
         SentenceIterator sentenceIterator = new BasicLineIterator(input_path);
         TokenizerFactory tokenizer = new DefaultTokenizerFactory();
