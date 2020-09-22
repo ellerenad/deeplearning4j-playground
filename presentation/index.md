@@ -1,4 +1,34 @@
-initial plan for the index of the presentation - it differs from the actual one
+
+1. Definition
+1. Story - iris dataset
+1. ML Theory - Be pragmatic!
+    1. what types of machine learning exist
+           1. supervised
+               1. classification
+               1. regression
+           1. unsupervised
+               1. look at https://deeplearning4j.konduit.ai/models/autoencoders
+           1. reinforcement learning     
+       1. what types of model/algorithms exist
+1. Tools that integrate with DL4J
+    1. Import models from Keras
+    1. Spark
+    1. Hadoop
+    1. Cuda
+
+1. Image Classification
+    1. Diagram
+    1. Model Zoo
+    1. YOLO2
+    1. Limitations
+
+1. Sentiment analysis
+
+
+
+-----------------------------
+
+initial plan for the index of the presentation 
 
 Legend:
 
@@ -85,33 +115,6 @@ Legend:
 
 
 
-
-realistic index:
-
-1. Definition
-1. Story - iris dataset
-1. ML Theory - Be pragmatic!
-    1. what types of machine learning exist
-           1. supervised
-               1. classification
-               1. regression
-           1. unsupervised
-               1. look at https://deeplearning4j.konduit.ai/models/autoencoders
-           1. reinforcement learning     
-       1. what types of model/algorithms exist
-1. Tools that integrate with DL4J
-    1. Import models from Keras
-    1. Spark
-    1. Hadoop
-    1. Cuda
-
-1. Image Classification
-    1. Diagram
-    1. Model Zoo
-    1. YOLO2
-    1. Limitations
-
-1. Sentiment analysis
 
 
 
