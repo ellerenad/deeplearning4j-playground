@@ -12,4 +12,4 @@ Here, you can find 3 examples:
 - Word2vec [here](/src/main/java/dev/ienjoysoftware/nlp/word2vec)
 
 
-Visit my blog [https://ienjoysoftware.dev] for posts about these examples!
+Visit my blog https://ienjoysoftware.dev for posts about these examples!
