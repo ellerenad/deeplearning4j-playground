@@ -88,10 +88,10 @@ public class IrisClassifierPredictor {
     private static INDArray getArray(Iris iris) {
         // It is important to use float. Using double, the model would not work properly
         float[] input = new float[FIELDS_COUNT];
-        input[INDEX_SEPAL_LENGTH] = iris.getSepal_length();
-        input[INDEX_SEPAL_WIDTH] = iris.getSepal_width();
-        input[INDEX_PETAL_LENGTH] = iris.getPetal_length();
-        input[INDEX_PETAL_WIDTH] = iris.getPetal_width();
+        input[INDEX_SEPAL_LENGTH] = iris.getSepalLength();
+        input[INDEX_SEPAL_WIDTH] = iris.getSepalWidth();
+        input[INDEX_PETAL_LENGTH] = iris.getPetalLength();
+        input[INDEX_PETAL_WIDTH] = iris.getPetalWidth();
 
         NDArray ndArray = new NDArray(1, FIELDS_COUNT); // The empty constructor causes a NPE in add method
         DataBuffer dataBuffer = new FloatBuffer(input);
