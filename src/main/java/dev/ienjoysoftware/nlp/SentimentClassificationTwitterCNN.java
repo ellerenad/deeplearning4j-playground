@@ -21,6 +21,7 @@ import dev.ienjoysoftware.nlp.util.DataSetIteratorWrapper;
 import dev.ienjoysoftware.nlp.util.DataWrapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang.time.StopWatch;
 import org.deeplearning4j.iterator.CnnSentenceDataSetIterator;
 import org.deeplearning4j.iterator.CnnSentenceDataSetIterator.Format;
 import org.deeplearning4j.iterator.LabeledSentenceProvider;
@@ -48,6 +49,8 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.learning.config.Adam;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,24 +63,30 @@ import java.util.Random;
  * <p>
  * Specifically, this is the 'static' model from there
  *
- * @author Alex Black
+ *  To run this, download the following files and set the paths on the corresponding constants:
+ * - WORD_VECTORS_PATH download from https://dl4jdata.blob.core.windows.net/resources/wordvectors/GoogleNews-vectors-negative300.bin.gz
+ * - TWITTER_DATA_SET download from https://www.kaggle.com/kazanova/sentiment140
+ *
+ * Another option to download the WORD_VECTORS_PATH file is {@see org.deeplearning4j.examples.advanced.modelling.textclassification.pretrainedword2vec.ImdbReviewClassificationRNN#checkDownloadW2VECModel}
+ *
+ * Set the constant SAVE_MODEL_PATH to the path you want the trained model to be saved to.
+ *
+ *
+ * Inspired on {@see org.deeplearning4j.examples.advanced.modelling.textclassification.pretrainedword2vec.ImdbReviewClassificationCNN}
  */
 public class SentimentClassificationTwitterCNN {
+    private static Logger log = LoggerFactory.getLogger(SentimentClassificationTwitterCNN.class);
 
-    // TODO refactor. Make configurable
-    static String wordVectorsPath = "/Users/enriquedominguez/dl4j-examples-data/w2vec300/GoogleNews-vectors-negative300.bin.gz";
-    // static String twitterDataSet = "/Users/enriquedominguez/dl4j-examples-data/sentiment_analysis_twitter/training.1600000.processed.noemoticon.csv";
-    // static String twitterDataSet = "/Users/enriquedominguez/dl4j-examples-data/sentiment_analysis_twitter/training_reduced_800000.csv";
-    static String twitterDataSet = "/Users/enriquedominguez/dl4j-examples-data/sentiment_analysis_twitter/training_reduced_2000.csv";
+    private static final String WORD_VECTORS_PATH = System.getProperty("user.home")+"/dl4j-examples-data/w2vec300/GoogleNews-vectors-negative300.bin.gz";
+    private final static String TWITTER_DATA_SET = System.getProperty("user.home")+"/dl4j-examples-data/sentiment_analysis_twitter/training_reduced_2000.csv";
+    private final static String SAVE_MODEL_PATH = System.getProperty("user.home")+"/dl4j-examples-data/sentiment_analysis_twitter/";
+
+    private final static int TWITTER_DATA_SET_FIELD_COUNT = 6;
+    private final static int TWITTER_DATA_SET_FIELD_POSITION_LABEL = 0;
+    private final static int TWITTER_DATA_SET_FIELD_POSITION_TWEET = 5;
+
 
     public void runExample() throws Exception {
-
-        // TODO Copy over to this class?
-        // ImdbReviewClassificationRNN.checkDownloadW2VECModel();
-
-        //Download and extract data
-        // TODO Copy over to this class?
-        // ImdbReviewClassificationRNN.downloadData();
 
         //Basic configuration
         int batchSize = 32;
@@ -137,31 +146,35 @@ public class SentimentClassificationTwitterCNN {
         ComputationGraph net = new ComputationGraph(config);
         net.init();
 
-        System.out.println("Number of parameters by layer:");
+        log.info("Number of parameters by layer:");
         for (Layer l : net.getLayers()) {
-            System.out.println("\t" + l.conf().getLayer().getLayerName() + "\t" + l.numParams());
+            log.info("{}\t{}\t", l.conf().getLayer().getLayerName(), l.numParams());
         }
 
         //Load word vectors and get the DataSetIterators for training and testing
-        System.out.println("Loading word vectors");
-        WordVectors wordVectors = WordVectorSerializer.loadStaticModel(new File(wordVectorsPath));
-        System.out.println("Creating DataSetIterators");
+        log.info("Loading word vectors");
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        WordVectors wordVectors = WordVectorSerializer.loadStaticModel(new File(WORD_VECTORS_PATH));
+        log.info("Loaded vectors: execution time (milliseconds): {}", stopWatch.getTime());
+
+        log.info("Creating DataSetIterators");
         DataSetIteratorWrapper dataSetIteratorWrapper = getDataSetIterator(wordVectors, batchSize, truncateReviewsToLength, rng);
 
         DataSetIterator trainIter = dataSetIteratorWrapper.getTrain();
         DataSetIterator testIter = dataSetIteratorWrapper.getTest();
 
-        System.out.println("Starting training");
+        log.info("Starting training");
         net.setListeners(new ScoreIterationListener(100), new EvaluativeListener(testIter, 1, InvocationType.EPOCH_END));
         net.fit(trainIter, nEpochs);
 
-        net.save(new File("/Users/enriquedominguez/development/mimacom/deeplearning4j-examples/dl4j-examples/models/sentimentClassificationTwitterCNN"));
+        net.save(new File(SAVE_MODEL_PATH + "/sentimentClassificationTwitterCNN"));
 
         //After training: test a single sentence and generate a prediction
-        String negativeSentence = "Hollis' death scene will hurt me severely to watch on film  wry is directors cut not out now?";
+        String negativeSentence = "this code is driving me crazy! what was this guy thinking!? *Annotates the code* oh... it was me";
         predictSingle(net, testIter, negativeSentence);
 
-        String positiveSentence = "the sun is shining and i'm off for a driving lesson ";
+        String positiveSentence = "the talks at the Java Forum Stuttgart 2020 are awesome! I'm having so much fun!";
         predictSingle(net, testIter, positiveSentence);
     }
 
@@ -171,9 +184,9 @@ public class SentimentClassificationTwitterCNN {
         INDArray predictionsFirstNegative = net.outputSingle(featuresFirstNegative);
         List<String> labels = testIter.getLabels();
 
-        System.out.println("\n\nPredictions for sentence: " + sentence);
+        log.info("\n\nPredictions for sentence: " + sentence);
         for (int i = 0; i < labels.size(); i++) {
-            System.out.println("P(" + labels.get(i) + ") = " + predictionsFirstNegative.getDouble(i));
+            log.info("P(" + labels.get(i) + ") = " + predictionsFirstNegative.getDouble(i));
         }
     }
 
@@ -181,8 +194,7 @@ public class SentimentClassificationTwitterCNN {
     @SuppressWarnings("Duplicates")
     DataSetIteratorWrapper getDataSetIterator(WordVectors wordVectors, int minibatchSize,
                                                       int maxSentenceLength, Random rng) throws IOException {
-        // TODO Receive as param
-        String path = twitterDataSet;
+        String path = TWITTER_DATA_SET;
 
         DataWrapper dataWrapper = getCleanData(path);
 
@@ -227,7 +239,7 @@ public class SentimentClassificationTwitterCNN {
                 String[] parts = line.split("\",\"");
                 String label = getLabel(parts);
                 String data = getData(parts);
-                // TODO Check dataset splitting (test and training)
+                // Splitting the data: 50% for training and 50% for testing
                 if (counter % 2 == 0) {
                     trainingLabelList.add(label);
                     trainingDataList.add(data);
@@ -236,42 +248,41 @@ public class SentimentClassificationTwitterCNN {
                     testDataList.add(data);
                 }
             } catch(Exception ex){
-                System.err.println("Exception: " + ex + ". Counter = "+ counter +". Line = "+line);
+                log.error("Exception: {}. Counter = {}. Line = {}", ex, counter, line);
             }
             counter++;
 
             if(counter % 1000 == 0){
-                System.out.println("Read line number "+ counter + " from dataset. Line: "+ line);
+                log.info("Read line number {} from dataset. Line: {}", counter, line);
             }
 
         }
-        // TODO Put a proper logger
-        System.out.println("End: Read line number "+ counter + " from dataset.Line: "+ line);
-        System.out.println("trainingLabelList\ttrainingDataList\ttestLabelList\ttestDataList\n" +
-                trainingLabelList.size() + "\t"+ trainingDataList.size() + "\t"+ testLabelList.size() + "\t"+ testDataList.size());
+        log.info("End: Read line number {} from dataset. Line: {}", counter, line);
+        log.info("trainingLabelList\ttrainingDataList\ttestLabelList\ttestDataList");
+        log.info("{}\t{}\t{}\t{}\t",trainingLabelList.size(), trainingDataList.size(), testLabelList.size(), testDataList.size());
 
 
         return new DataWrapper(trainingLabelList, trainingDataList, testLabelList, testDataList);
     }
 
     String getLabel(String[] parts){
-        // TODO make null check, make length check
-        return parts[0].replace("\"", "").equals("0") ? "Negative" : "Positive";
+        if(parts != null && parts.length > 0 && parts[TWITTER_DATA_SET_FIELD_POSITION_LABEL] != null) {
+            return parts[TWITTER_DATA_SET_FIELD_POSITION_LABEL].replace("\"", "").equals("0") ? "Negative" : "Positive";
+        }
+        throw new RuntimeException("Not possible to determine label");
     }
 
     String getData(String[] parts){
         String data = null;
-            // TODO refactor Magic constants
-            if (parts.length == 6) {
-                data = parts[5];
-            } else if (parts.length >= 6) {
+            if (parts.length == TWITTER_DATA_SET_FIELD_COUNT) {
+                data = parts[TWITTER_DATA_SET_FIELD_POSITION_TWEET];
+            } else if (parts.length >= TWITTER_DATA_SET_FIELD_COUNT) {
                 StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 5; i < parts.length; i++) {
+                for (int i = TWITTER_DATA_SET_FIELD_POSITION_TWEET; i < parts.length; i++) {
                     stringBuilder.append(parts[i]);
                 }
                 data = stringBuilder.toString();
             }
-        // TODO Check: it could be that i am replacing too much of "
         return data.replace("\"", "");
     }
 
