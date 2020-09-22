@@ -11,5 +11,6 @@ Here, you can find 3 examples:
 - Sentiment Analysis [here](/src/main/java/dev/ienjoysoftware/nlp)
 - Word2vec [here](/src/main/java/dev/ienjoysoftware/nlp/word2vec)
 
+The presentation of the talk can be found [here](/presentation)
 
 Visit my blog https://ienjoysoftware.dev for posts about these examples!
