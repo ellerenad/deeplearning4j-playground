@@ -6,10 +6,10 @@ made at the Java Forum Stuttgart 2020.
 
 Here, you can find 3 examples:
 
-- Iris Classification [here](/src/dev/ienjoysoftware/classification)
-- Image annotation [here](/src/dev/ienjoysoftware/image/classification)
-- Sentiment Analysis [here](/src/dev/ienjoysoftware/nlp)
-- Word2vec [here](/src/dev/ienjoysoftware/nlp/word2vec)
+- Iris Classification [here](/src/main/java/dev/ienjoysoftware/classification)
+- Image annotation [here](/src/main/java/dev/ienjoysoftware/image/classification)
+- Sentiment Analysis [here](/src/main/java/dev/ienjoysoftware/nlp)
+- Word2vec [here](/src/main/java/dev/ienjoysoftware/nlp/word2vec)
 
 
 Visit my blog [https://ienjoysoftware.dev] for posts about these examples!
