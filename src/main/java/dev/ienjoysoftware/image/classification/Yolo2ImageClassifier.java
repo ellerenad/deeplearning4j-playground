@@ -82,8 +82,8 @@ public class Yolo2ImageClassifier {
 
         // Perform the classification
         INDArray outputs = pretrainedComputationGraph.outputSingle(iNDArrayTransformedImage);
-        List<DetectedObject> detectedObjects = YoloUtils.getPredictedObjects
-                (Nd4j.create(((YOLO2) yolo2Model).getPriorBoxes()),
+        List<DetectedObject> detectedObjects = YoloUtils.getPredictedObjects(
+                        Nd4j.create(((YOLO2) yolo2Model).getPriorBoxes()),
                         outputs,
                         DETECTION_THRESHOLD,
                         NMS_THRESHOLD);
