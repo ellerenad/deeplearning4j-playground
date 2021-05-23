@@ -70,20 +70,18 @@ public class Yolo2ImageClassifier {
 
         // Load the image from disk
         File fileOriginalImage = new File(inputImagePath);
-        INDArray iNDArrayImage = imageLoader.asMatrix(fileOriginalImage);
+        INDArray iNDArrayOriginalImage = imageLoader.asMatrix(fileOriginalImage);
 
         // Resize the image to match the required size by YOLO2
-        Mat matRawImage = yoloImageLoader.asMat(iNDArrayImage);
-        Mat resizeImage = new Mat();
-        resize(matRawImage, resizeImage, new Size(YOLO2_WIDTH, YOLO2_HEIGHT));
+        Mat matResizedImage = yoloImageLoader.asMat(iNDArrayOriginalImage);
 
         // Scale the images, as in "normalize the pixels to be on the range from 0 to 1"
         ImagePreProcessingScaler scaler = new ImagePreProcessingScaler(0, 1);
-        INDArray inputImage = yoloImageLoader.asMatrix(resizeImage);
-        scaler.transform(inputImage);
+        INDArray iNDArrayTransformedImage = yoloImageLoader.asMatrix(matResizedImage);
+        scaler.transform(iNDArrayTransformedImage);
 
         // Perform the classification
-        INDArray outputs = pretrainedComputationGraph.outputSingle(inputImage);
+        INDArray outputs = pretrainedComputationGraph.outputSingle(iNDArrayTransformedImage);
         List<DetectedObject> detectedObjects = YoloUtils.getPredictedObjects
                 (Nd4j.create(((YOLO2) yolo2Model).getPriorBoxes()),
                         outputs,
@@ -94,7 +92,7 @@ public class Yolo2ImageClassifier {
         Image originalImage = imageLoader.asImageMatrix(fileOriginalImage);
         int originalWidth = originalImage.getOrigW();
         int originalHeight = originalImage.getOrigH();
-        annotate(originalWidth, originalHeight, matRawImage, detectedObjects, outputImagePath);
+        annotate(originalWidth, originalHeight, matResizedImage, detectedObjects, outputImagePath);
 
         return detectedObjects;
     }
